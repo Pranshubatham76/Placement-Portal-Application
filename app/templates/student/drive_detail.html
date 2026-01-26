@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}{{ drive.job_title }} - Student{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>{{ drive.job_title }}</h1>
+            <a href="{{ url_for('student.list_drives') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Drives
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">{{ drive.company.company_name }}</h4>
+            </div>
+            <div class="card-body">
+                <h5 class="mb-3">Job Details</h5>
+
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="30%">Location:</th>
+                        <td>{{ drive.job_location }}</td>
+                    </tr>
+                    <tr>
+                        <th>Job Type:</th>
+                        <td><span class="badge bg-info">{{ drive.job_type|title }}</span></td>
+                    </tr>
+                    <tr>
+                        <th>CTC:</th>
+                        <td><strong>₹ {{ drive.ctc }} LPA</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Application Deadline:</th>
+                        <td><strong class="text-danger">{{ drive.deadline.strftime('%d %B %Y') }}</strong></td>
+                    </tr>
+                    {% if drive.drive_date %}
+                    <tr>
+                        <th>Drive Date:</th>
+                        <td>{{ drive.drive_date.strftime('%d %B %Y') }}</td>
+                    </tr>
+                    {% endif %}
+                </table>
+
+                <hr>
+
+                <h5 class="mb-3">Job Description</h5>
+                <p>{{ drive.job_description }}</p>
+
+                <hr>
+
+                <h5 class="mb-3">Eligibility Criteria</h5>
+                <ul>
+                    <li><strong>Minimum CGPA:</strong> {{ drive.min_cgpa }}</li>
+                    <li><strong>Eligible Branches:</strong> {{ drive.eligible_branches }}</li>
+                    <li><strong>Graduation Years:</strong> {{ drive.eligible_years }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Application Status</h5>
+            </div>
+            <div class="card-body">
+                {% if already_applied %}
+                <div class="alert alert-success">
+                    <i class="bi bi-check-circle"></i>
+                    <strong>Already Applied!</strong>
+                </div>
+                <p class="text-muted">You have already applied to this drive.</p>
+                <a href="{{ url_for('student.list_applications') }}" class="btn btn-info w-100">
+                    <i class="bi bi-file-text"></i> View My Applications
+                </a>
+                {% elif not is_eligible %}
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <strong>Not Eligible</strong>
+                </div>
+                <p class="mb-2"><strong>Reasons:</strong></p>
+                <ul class="small">
+                    {% for reason in ineligibility_reasons %}
+                    <li>{{ reason }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <div class="alert alert-success">
+                    <i class="bi bi-check-circle"></i>
+                    <strong>You are eligible!</strong>
+                </div>
+                <form method="POST" action="{{ url_for('student.apply_to_drive', drive_id=drive.id) }}">
+                    <button type="submit" class="btn btn-primary w-100 btn-lg">
+                        <i class="bi bi-send"></i> Apply Now
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Company Info -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="mb-0">Company Information</h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <strong>Company:</strong><br>
+                    {{ drive.company.company_name }}
+                </p>
+                {% if drive.company.website %}
+                <p class="mb-0">
+                    <strong>Website:</strong><br>
+                    <a href="{{ drive.company.website }}" target="_blank">{{ drive.company.website }}</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

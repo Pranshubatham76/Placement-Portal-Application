@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}My Drives - Company{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>
+                <i class="bi bi-briefcase"></i> Placement Drives
+            </h1>
+            <a href="{{ url_for('company.create_drive') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Create New Drive
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Tabs -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="btn-group" role="group">
+            <a href="?" class="btn btn-outline-primary">All</a>
+            <a href="?status=approved" class="btn btn-outline-success">Approved</a>
+            <a href="?status=pending" class="btn btn-outline-warning">Pending</a>
+            <a href="?status=rejected" class="btn btn-outline-danger">Rejected</a>
+            <a href="?status=closed" class="btn btn-outline-secondary">Closed</a>
+        </div>
+    </div>
+</div>
+
+<!-- Drives List -->
+{% if drives %}
+<div class="row">
+    {% for drive in drives %}
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ drive.job_title }}</h5>
+                    {% if drive.status == 'approved' %}
+                    <span class="badge bg-success">Approved</span>
+                    {% elif drive.status == 'pending' %}
+                    <span class="badge bg-warning text-dark">Pending</span>
+                    {% elif drive.status == 'closed' %}
+                    <span class="badge bg-secondary">Closed</span>
+                    {% else %}
+                    <span class="badge bg-danger">Rejected</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-muted mb-2">
+                    <i class="bi bi-geo-alt"></i> {{ drive.job_location }} |
+                    <i class="bi bi-briefcase"></i> {{ drive.job_type|title }}
+                </p>
+                <p class="card-text small text-muted mb-3">
+                    <i class="bi bi-currency-rupee"></i> {{ drive.ctc }} LPA |
+                    <i class="bi bi-calendar"></i> Deadline: {{ drive.application_deadline.strftime('%d %b %Y') }}
+                </p>
+
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('company.view_drive', drive_id=drive.id) }}" class="btn btn-sm btn-primary">
+                        <i class="bi bi-eye"></i> View
+                    </a>
+                    <div>
+                        {% if drive.status != 'closed' %}
+                        <a href="{{ url_for('company.edit_drive', drive_id=drive.id) }}"
+                            class="btn btn-sm btn-secondary">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        {% endif %}
+                        <a href="{{ url_for('company.view_applications', drive_id=drive.id) }}"
+                            class="btn btn-sm btn-info">
+                            <i class="bi bi-people"></i> Applications
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card">
+    <div class="card-body text-center py-5">
+        <i class="bi bi-inbox display-1 text-muted"></i>
+        <p class="text-muted mt-3">No placement drives found</p>
+        <a href="{{ url_for('company.create_drive') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Create Your First Drive
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

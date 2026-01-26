@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Search - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-search"></i> Advanced Search
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Search Students</h5>
+            </div>
+            <div class="card-body">
+                <form method="GET" action="">
+                    <input type="hidden" name="search_type" value="students">
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Student name">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="branch" class="form-label">Branch</label>
+                            <select class="form-select" id="branch" name="branch">
+                                <option value="">All Branches</option>
+                                <option value="CSE">Computer Science</option>
+                                <option value="ECE">Electronics</option>
+                                <option value="ME">Mechanical</option>
+                                <option value="CE">Civil</option>
+                                <option value="EE">Electrical</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="min_cgpa" class="form-label">Min CGPA</label>
+                            <input type="number" class="form-control" id="min_cgpa" name="min_cgpa" step="0.01" min="0"
+                                max="10">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="year" class="form-label">Graduation Year</label>
+                            <input type="number" class="form-control" id="year" name="year">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Search Students
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Search Companies</h5>
+            </div>
+            <div class="card-body">
+                <form method="GET" action="">
+                    <input type="hidden" name="search_type" value="companies">
+
+                    <div class="mb-3">
+                        <label for="company_name" class="form-label">Company Name</label>
+                        <input type="text" class="form-control" id="company_name" name="company_name"
+                            placeholder="Company name">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="approval_status" class="form-label">Status</label>
+                        <select class="form-select" id="approval_status" name="approval_status">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-search"></i> Search Companies
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Search Results</h5>
+            </div>
+            <div class="card-body">
+                {% if results %}
+                <p class="mb-2"><strong>{{ results|length }} results found</strong></p>
+                <div class="list-group">
+                    {% for result in results %}
+                    <a href="#" class="list-group-item list-group-item-action">
+                        {{ result.name or result.company_name or result.full_name }}
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted text-center">
+                    <i class="bi bi-search" style="font-size: 3rem;"></i>
+                    <br>Enter search criteria to find students or companies
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

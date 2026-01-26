@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Placement History - Student{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-clock-history"></i> My Placement History
+        </h1>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+                <h3>{{ total_applications or 0 }}</h3>
+                <p class="mb-0">Total Applications</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark">
+            <div class="card-body text-center">
+                <h3>{{ shortlisted or 0 }}</h3>
+                <p class="mb-0">Shortlisted</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h3>{{ selected or 0 }}</h3>
+                <p class="mb-0">Selected</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body text-center">
+                <h3>{{ (selected / total_applications * 100)|int if total_applications else 0 }}%</h3>
+                <p class="mb-0">Success Rate</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Application Timeline -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Application Timeline</h5>
+            </div>
+            <div class="card-body">
+                {% if applications %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Company</th>
+                                <th>Job Title</th>
+                                <th>CTC</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in applications %}
+                            <tr>
+                                <td>{{ application.applied_at.strftime('%d %b %Y') }}</td>
+                                <td>{{ application.drive.company.company_name }}</td>
+                                <td>{{ application.drive.job_title }}</td>
+                                <td>₹{{ application.drive.ctc }} LPA</td>
+                                <td>
+                                    {% if application.status == 'selected' %}
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-trophy"></i> Selected
+                                    </span>
+                                    {% elif application.status == 'shortlisted' %}
+                                    <span class="badge bg-warning text-dark">Shortlisted</span>
+                                    {% elif application.status == 'rejected' %}
+                                    <span class="badge bg-danger">Rejected</span>
+                                    {% else %}
+                                    <span class="badge bg-primary">Applied</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('student.view_application', application_id=application.id) }}"
+                                        class="btn btn-sm btn-primary">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox display-1 text-muted"></i>
+                    <p class="text-muted mt-3">No application history yet</p>
+                    <a href="{{ url_for('student.list_drives') }}" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Browse Drives
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

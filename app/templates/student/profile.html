@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Student Profile - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>
+                <i class="bi bi-person"></i> My Profile
+            </h1>
+            <a href="{{ url_for('student.edit_profile') }}" class="btn btn-primary">
+                <i class="bi bi-pencil"></i> Edit Profile
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Personal Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="40%">Full Name:</th>
+                        <td>{{ student.name or 'Not set' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Student ID:</th>
+                        <td>{{ student.student_id or 'Not set' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ student.user.email if student.user else 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Contact:</th>
+                        <td>{{ student.contact or 'Not set' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address:</th>
+                        <td>{{ student.address or 'Not set' }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Academic Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="40%">Branch:</th>
+                        <td>
+                            {% if student.branch %}
+                            <span class="badge bg-info">{{ student.branch }}</span>
+                            {% else %}
+                            Not set
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>CGPA:</th>
+                        <td><strong>{{ "%.2f"|format(student.cgpa) if student.cgpa else 'Not set' }}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Graduation Year:</th>
+                        <td>{{ student.graduation_year or 'Not set' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Skills:</th>
+                        <td>{{ student.skills or 'Not set' }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Resume Section -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Resume</h5>
+            </div>
+            <div class="card-body">
+                {% if student.resume_path %}
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="bi bi-file-earmark-pdf text-danger" style="font-size: 2rem;"></i>
+                        <span class="ms-2">Resume uploaded</span>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('static', filename=student.resume_path) }}" target="_blank"
+                            class="btn btn-primary btn-sm">
+                            <i class="bi bi-download"></i> Download
+                        </a>
+                        <a href="{{ url_for('student.edit_profile') }}" class="btn btn-secondary btn-sm">
+                            <i class="bi bi-upload"></i> Replace
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="text-center py-3">
+                    <i class="bi bi-file-earmark-x text-muted" style="font-size: 3rem;"></i>
+                    <p class="text-muted mt-2">No resume uploaded</p>
+                    <a href="{{ url_for('student.edit_profile') }}" class="btn btnprimary">
+                        <i class="bi bi-upload"></i> Upload Resume
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+add status code there where you raise an Exception
+add the logging
+
+single person not be a student and company hr(with same email id)
+fix the issue for acceptedby or rejectedby thing
+two same person not have some contact no
+
+"""
+In a scenario where two tasks are created, both assigned high priority, and executed simultaneously by two different users, the order in which they execute depends on several factors, including:
+
+1. **System Scheduling Algorithm:** The operating system or task scheduler determines which task gets CPU time first. Common scheduling algorithms like Round Robin, Priority Scheduling, or Fair Scheduling may influence the order.
+
+2. **Task Arrival Time:** If both tasks are initiated at exactly the same moment, the scheduler's internal decision rules will decide the execution order.
+
+3. **System Load and Resources:** Availability of resources and system load can affect which task is picked first.
+
+4. **Implementation Details:** Certain systems may have additional rules or configurations that influence task execution order.
+
+**In general, if all factors are equal and tasks are truly initiated simultaneously with the same priority, the system's scheduler will determine which task starts first based on its internal scheduling policies, which may be somewhat unpredictable or nondeterministic.**
+
+**Therefore, without specific details about the system or scheduler, it is not guaranteed which task will execute first.**
+"""
+
+"""
+Press Win + R, type services.msc, and press Enter.
+Scroll down and find Memurai in the list.
+Right-click on it and select Properties.
+Change the Startup type from Automatic to Manual.
+Click Apply and then OK.
+You can now click Stop in that same window if it's currently running.
+
+"""

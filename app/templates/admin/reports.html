@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Reports & Analytics - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-graph-up"></i> Reports & Analytics
+        </h1>
+    </div>
+</div>
+
+<!-- Overall Statistics -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+                <h3>{{ stats.total_students or 0 }}</h3>
+                <p class="mb-0">Total Students</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h3>{{ stats.total_companies or 0 }}</h3>
+                <p class="mb-0">Active Companies</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body text-center">
+                <h3>{{ stats.total_placements or 0 }}</h3>
+                <p class="mb-0">Total Drives</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark">
+            <div class="card-body text-center">
+                <h3>{{ stats.placement_success_rate or 0 }}%</h3>
+                <p class="mb-0">Success Rate</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Placement Statistics by Branch -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Placement Statistics by Branch</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Branch</th>
+                            <th>Students</th>
+                            <th>Placed</th>
+                            <th>Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CSE</td>
+                            <td>50</td>
+                            <td>45</td>
+                            <td><span class="badge bg-success">90%</span></td>
+                        </tr>
+                        <tr>
+                            <td>ECE</td>
+                            <td>40</td>
+                            <td>32</td>
+                            <td><span class="badge bg-success">80%</span></td>
+                        </tr>
+                        <tr>
+                            <td>ME</td>
+                            <td>35</td>
+                            <td>24</td>
+                            <td><span class="badge bg-warning text-dark">69%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Others</td>
+                            <td>30</td>
+                            <td>20</td>
+                            <td><span class="badge bg-warning text-dark">67%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Top Recruiters</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Drives</th>
+                            <th>Hired</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if top_companies %}
+                        {% for company in top_companies %}
+                        <tr>
+                            <td>{{ company.name }}</td>
+                            <td>{{ company.drives_count }}</td>
+                            <td>{{ company.hired_count }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">No data available</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Package Distribution -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">CTC Distribution</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <h4 class="text-success">₹12 LPA</h4>
+                        <small class="text-muted">Highest Package</small>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 class="text-primary">₹6.5 LPA</h4>
+                        <small class="text-muted">Average Package</small>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 class="text-info">₹4 LPA</h4>
+                        <small class="text-muted">Median Package</small>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 class="text-warning">₹3 LPA</h4>
+                        <small class="text-muted">Lowest Package</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

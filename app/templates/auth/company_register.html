@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Company Registration - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <h2>
+                        <i class="bi bi-building text-success"></i>
+                        Company Registration
+                    </h2>
+                    <p class="text-muted">Register your company for campus recruitment</p>
+                </div>
+
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i>
+                    Your registration will be reviewed by the placement cell before approval.
+                </div>
+
+                <form method="POST" action="{{ url_for('auth.register_company_route') }}">
+                    <h5 class="mb-3">Login Credentials</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required
+                                minlength="8">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mb-3">Company Details</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="company_name" class="form-label">Company Name *</label>
+                            <input type="text" class="form-control" id="company_name" name="company_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="website" class="form-label">Website</label>
+                            <input type="url" class="form-control" id="website" name="website">
+                        </div>
+                    </div>
+
+                    <h5 class="mb-3">HR Contact Details</h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="hr_name" class="form-label">HR Name *</label>
+                            <input type="text" class="form-control" id="hr_name" name="hr_name" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="hr_email" class="form-label">HR Email *</label>
+                            <input type="email" class="form-control" id="hr_email" name="hr_email" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="hr_contact" class="form-label">HR Contact *</label>
+                            <input type="tel" class="form-control" id="hr_contact" name="hr_contact" required
+                                pattern="[0-9]{10}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea class="form-control" id="address" name="address" rows="2"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Company Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100 mb-3">
+                        <i class="bi bi-check-circle"></i> Submit Registration
+                    </button>
+                </form>
+
+                <div class="text-center">
+                    <p class="mb-0">
+                        Already registered?
+                        <a href="{{ url_for('auth.login') }}">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

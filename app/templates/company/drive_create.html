@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Create Placement Drive - Company{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-plus-circle"></i> Create Placement Drive
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            All placement drives require admin approval before going live.
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('company.create_drive') }}">
+                    <h5 class="mb-3">Job Details</h5>
+
+                    <div class="mb-3">
+                        <label for="job_title" class="form-label">Job Title *</label>
+                        <input type="text" class="form-control" id="job_title" name="job_title" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="job_description" class="form-label">Job Description *</label>
+                        <textarea class="form-control" id="job_description" name="job_description" rows="5"
+                            required></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="job_location" class="form-label">Job Location *</label>
+                            <input type="text" class="form-control" id="job_location" name="job_location" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="job_type" class="form-label">Job Type *</label>
+                            <select class="form-select" id="job_type" name="job_type" required>
+                                <option value="">Select Type</option>
+                                <option value="full_time">Full Time</option>
+                                <option value="internship">Internship</option>
+                                <option value="contract">Contract</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mb-3">Eligibility Criteria</h5>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="min_cgpa" class="form-label">Minimum CGPA *</label>
+                            <input type="number" class="form-control" id="min_cgpa" name="min_cgpa" step="0.01" min="0"
+                                max="10" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="eligible_years" class="form-label">Eligible Graduation Years *</label>
+                            <input type="text" class="form-control" id="eligible_years" name="eligible_years"
+                                placeholder="e.g., 2024,2025" required>
+                            <small class="text-muted">Comma-separated years</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Eligible Branches *</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="eligible_branches" value="CSE"
+                                        id="cse">
+                                    <label class="form-check-label" for="cse">Computer Science</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="eligible_branches" value="ECE"
+                                        id="ece">
+                                    <label class="form-check-label" for="ece">Electronics</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="eligible_branches" value="ME"
+                                        id="me">
+                                    <label class="form-check-label" for="me">Mechanical</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="eligible_branches" value="CE"
+                                        id="ce">
+                                    <label class="form-check-label" for="ce">Civil</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="eligible_branches" value="EE"
+                                        id="ee">
+                                    <label class="form-check-label" for="ee">Electrical</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mb-3">Package & Timeline</h5>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="ctc" class="form-label">Max.CTC (Annual in INR) *</label>
+                            <input type="number" class="form-control" id="ctc" name="ctc_max" min="0" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="ctc" class="form-label">Min.CTC (Annual in INR) *</label>
+                            <input type="number" class="form-control" id="ctc" name="ctc_min" min="0" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="deadline" class="form-label">Application Deadline *</label>
+                            <input type="date" class="form-control" id="deadline" name="deadline" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="drive_date" class="form-label">Drive Date</label>
+                            <input type="date" class="form-control" id="drive_date" name="drive_date">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="max_applicants" class="form-label">Maximum Applicants</label>
+                        <input type="number" class="form-control" id="max_applicants" name="max_applicants" min="1">
+                        <small class="text-muted">Leave empty for unlimited</small>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Create Drive
+                        </button>
+                        <a href="{{ url_for('company.list_drives') }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

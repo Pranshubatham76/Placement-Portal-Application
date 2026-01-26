@@ -1,0 +1,133 @@
+<!-- drive_edit.html is similar to drive_create.html but with pre-filled values -->
+{% extends "base.html" %}
+
+{% block title %}Edit Drive - Company{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-pencil"></i> Edit Placement Drive
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('company.edit_drive', drive_id=drive.id) }}">
+                    <h5 class="mb-3">Job Details</h5>
+
+                    <div class="mb-3">
+                        <label for="job_title" class="form-label">Job Title *</label>
+                        <input type="text" class="form-control" id="job_title" name="job_title"
+                            value="{{ drive.job_title }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="job_description" class="form-label">Job Description *</label>
+                        <textarea class="form-control" id="job_description" name="job_description" rows="5"
+                            required>{{ drive.job_description }}</textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="job_location" class="form-label">Job Location *</label>
+                            <input type="text" class="form-control" id="job_location" name="job_location"
+                                value="{{ drive.job_location }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="job_type" class="form-label">Job Type *</label>
+                            <select class="form-select" id="job_type" name="job_type" required>
+                                <option value="full_time" {% if drive.job_type=='full_time' %}selected{% endif %}>Full
+                                    Time</option>
+                                <option value="internship" {% if drive.job_type=='internship' %}selected{% endif %}>
+                                    Internship</option>
+                                <option value="contract" {% if drive.job_type=='contract' %}selected{% endif %}>Contract
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mb-3">Eligibility Criteria</h5>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="min_cgpa" class="form-label">Minimum CGPA *</label>
+                            <input type="number" class="form-control" id="min_cgpa" name="min_cgpa" step="0.01" min="0"
+                                max="10" value="{{ drive.min_cgpa }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="eligible_years" class="form-label">Eligible Graduation Years *</label>
+                            <input type="text" class="form-control" id="eligible_years" name="eligible_years"
+                                value="{{ drive.eligible_years }}" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Eligible Branches *</label>
+                        {% set selected_branches = drive.eligible_branches.split(',') %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="eligible_branches" value="CSE"
+                                        {% if 'CSE' in selected_branches %}checked{% endif %}>
+                                    <label class="form-check-label">Computer Science</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="eligible_branches" value="ECE"
+                                        {% if 'ECE' in selected_branches %}checked{% endif %}>
+                                    <label class="form-check-label">Electronics</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="eligible_branches" value="ME"
+                                        {% if 'ME' in selected_branches %}checked{% endif %}>
+                                    <label class="form-check-label">Mechanical</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mb-3">Package & Timeline</h5>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="ctc" class="form-label">CTC (Annual) *</label>
+                            <input type="number" class="form-control" id="ctc" name="ctc" value="{{ drive.ctc }}"
+                                required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="deadline" class="form-label">Deadline *</label>
+                            <input type="date" class="form-control" id="deadline" name="deadline"
+                                value="{{ drive.deadline.strftime('%Y-%m-%d') }}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="drive_date" class="form-label">Drive Date</label>
+                            <input type="date" class="form-control" id="drive_date" name="drive_date"
+                                value="{{ drive.drive_date.strftime('%Y-%m-%d') if drive.drive_date else '' }}">
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Save Changes
+                        </button>
+                        <a href="{{ url_for('company.view_drive', drive_id=drive.id) }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

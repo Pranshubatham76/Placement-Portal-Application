@@ -1,0 +1,105 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('public.index') }}">
+            <i class="bi bi-mortarboard-fill"></i> Placement Portal
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                {% if current_user.is_authenticated %}
+                <!-- Admin Navigation -->
+                {% if current_user.role == 'admin' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin.dashboard') }}">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin.list_companies') }}">
+                        <i class="bi bi-building"></i> Companies
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin.list_students') }}">
+                        <i class="bi bi-people"></i> Students
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin.list_drives_admin') }}">
+                        <i class="bi bi-briefcase"></i> Drives
+                    </a>
+                </li>
+
+                <!-- Company Navigation -->
+                {% elif current_user.role == 'company' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('company.dashboard') }}">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('company.list_drives') }}">
+                        <i class="bi bi-briefcase"></i> Drives
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('company.profile') }}">
+                        <i class="bi bi-building"></i> Profile
+                    </a>
+                </li>
+
+                <!-- Student Navigation -->
+                {% elif current_user.role == 'student' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('student.dashboard') }}">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('student.list_drives') }}">
+                        <i class="bi bi-search"></i> Drives
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('student.list_applications') }}">
+                        <i class="bi bi-file-text"></i> Applications
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('student.profile') }}">
+                        <i class="bi bi-person"></i> Profile
+                    </a>
+                </li>
+                {% endif %}
+
+                <!-- Logout -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i> {{ current_user.email }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <!-- Guest Navigation -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.login') }}">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.register') }}">
+                        <i class="bi bi-person-plus"></i> Register
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

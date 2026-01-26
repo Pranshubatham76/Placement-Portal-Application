@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-speedometer2"></i> Student Dashboard
+        </h1>
+    </div>
+</div>
+
+<!-- Profile Status -->
+{% if not stats.profile_complete %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i>
+    <strong>Complete your profile!</strong>
+    Please upload your resume and complete all required fields.
+    <a href="{{ url_for('student.edit_profile') }}" class="alert-link">Update Profile</a>
+</div>
+{% endif %}
+
+<!-- Statistics -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-briefcase"></i> Available Drives
+                </h5>
+                <h2 class="mb-0">{{ stats.available_drives }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-file-text"></i> Applied
+                </h5>
+                <h2 class="mb-0">{{ stats.total_applications }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-star"></i> Shortlisted
+                </h5>
+                <h2 class="mb-0">{{ stats.shortlisted }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-check-circle"></i> Selected
+                </h5>
+                <h2 class="mb-0">{{ stats.selected }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Drives -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="bi bi-briefcase"></i> Recent Placement Drives
+                </h5>
+                <a href="{{ url_for('student.list_drives') }}" class="btn btn-primary btn-sm">
+                    View All
+                </a>
+            </div>
+            <div class="card-body">
+                {% if recent_drives %}
+                <div class="list-group list-group-flush">
+                    {% for drive in recent_drives %}
+                    <a href="{{ url_for('student.view_drive', drive_id=drive.id) }}"
+                        class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ drive.job_title }}</h6>
+                            <small class="text-muted">{{ drive.company.company_name }}</small>
+                        </div>
+                        <p class="mb-1 text-muted small">
+                            <i class="bi bi-geo-alt"></i> {{ drive.job_location }} |
+                            <i class="bi bi-currency-rupee"></i> {{ drive.ctc|format_currency }} |
+                            <i class="bi bi-calendar"></i> Deadline: {{ drive.deadline.strftime('%d %b %Y') }}
+                        </p>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted text-center mb-0">No recent drives available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

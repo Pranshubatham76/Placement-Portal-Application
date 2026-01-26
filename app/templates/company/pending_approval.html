@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Company Pending Approval - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-warning">
+            <div class="card-header bg-warning">
+                <h4 class="mb-0">
+                    <i class="bi bi-clock-history"></i> Registration Under Review
+                </h4>
+            </div>
+            <div class="card-body text-center py-5">
+                <i class="bi bi-hourglass-split display-1 text-warning"></i>
+
+                <h3 class="mt-4">Thank You for Registering!</h3>
+
+                <p class="text-muted mt-3 mb-4">
+                    Your company registration is currently under review by the placement cell.
+                    You will receive an email notification once your account is approved.
+                </p>
+
+                <div class="card bg-light mt-4">
+                    <div class="card-body">
+                        <h5>Company Details</h5>
+                        <table class="table table-sm table-borderless mb-0 mt-3">
+                            <tr>
+                                <td width="40%" class="text-end"><strong>Company Name:</strong></td>
+                                <td class="text-start">{{ company.company_name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-end"><strong>HR Name:</strong></td>
+                                <td class="text-start">{{ company.hr_name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-end"><strong>Status:</strong></td>
+                                <td class="text-start">
+                                    {% if company.approval_status == 'pending' %}
+                                    <span class="badge bg-warning text-dark">Pending Approval</span>
+                                    {% elif company.approval_status == 'rejected' %}
+                                    <span class="badge bg-danger">Rejected</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                {% if company.approval_status == 'rejected' %}
+                <div class="alert alert-danger mt-4">
+                    <strong>Registration Rejected</strong>
+                    <p class="mb-0 mt-2">
+                        Your registration was not approved. Please contact the placement cell for more information.
+                    </p>
+                </div>
+                {% endif %}
+
+                <div class="mt-4">
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

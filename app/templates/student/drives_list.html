@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Placement Drives - Student{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-briefcase"></i> Available Placement Drives
+        </h1>
+    </div>
+</div>
+
+{% if drives %}
+<div class="row">
+    {% for drive in drives %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">{{ drive.job_title }}</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="text-muted mb-3">{{ drive.company.company_name }}</h6>
+
+                <p class="card-text mb-2">
+                    <i class="bi bi-geo-alt"></i> {{ drive.job_location }} |
+                    <i class="bi bi-briefcase"></i> {{ drive.job_type|title }}
+                </p>
+
+                <p class="card-text mb-2">
+                    <i class="bi bi-currency-rupee"></i> <strong>{{ drive.ctc }} LPA</strong>
+                </p>
+
+                <p class="card-text small text-muted mb-3">
+                    <i class="bi bi-calendar-event"></i> Deadline: {{ drive.deadline.strftime('%d %b %Y') }}
+                    {% if drive.drive_date %}
+                    <br><i class="bi bi-calendar-check"></i> Drive Date: {{ drive.drive_date.strftime('%d %b %Y') }}
+                    {% endif %}
+                </p>
+
+                <p class="card-text small">
+                    <strong>Requirements:</strong> CGPA ≥ {{ drive.min_cgpa }}
+                    {% if drive.eligible_branches %}
+                    <br><strong>Branches:</strong> {{ drive.eligible_branches }}
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer bg-white">
+                <a href="{{ url_for('student.view_drive', drive_id=drive.id) }}" class="btn btn-primary btn-sm w-100">
+                    <i class="bi bi-eye"></i> View Details & Apply
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card">
+    <div class="card-body text-center py-5">
+        <i class="bi bi-inbox display-1 text-muted"></i>
+        <p class="text-muted mt-3">No placement drives available at the moment</p>
+        <p class="text-muted">Check back later for new opportunities!</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

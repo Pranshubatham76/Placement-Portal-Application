@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}{{ student.full_name or 'Student' }} - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>
+                <i class="bi bi-person"></i> {{ student.full_name or 'Student Profile' }}
+            </h1>
+            <a href="{{ url_for('admin.list_students') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Personal Information -->
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Personal Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="40%">Full Name:</th>
+                        <td>{{ student.full_name or 'Not provided' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Student ID:</th>
+                        <td>{{ student.student_id or 'Not provided' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ student.user.email if student.user else 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Contact:</th>
+                        <td>{{ student.contact or 'Not provided' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Address:</th>
+                        <td>{{ student.address or 'Not provided' }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Academic Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="40%">Branch:</th>
+                        <td><span class="badge bg-info">{{ student.branch or 'N/A' }}</span></td>
+                    </tr>
+                    <tr>
+                        <th>CGPA:</th>
+                        <td><strong>{{ "%.2f"|format(student.cgpa) if student.cgpa else 'N/A' }}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Graduation Year:</th>
+                        <td>{{ student.graduation_year or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Skills:</th>
+                        <td>{{ student.skills or 'Not provided' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Resume:</th>
+                        <td>
+                            {% if student.resume_path %}
+                            <a href="{{ url_for('static', filename=student.resume_path) }}" target="_blank"
+                                class="btn btn-sm btn-primary">
+                                <i class="bi bi-file-earmark-pdf"></i> Download Resume
+                            </a>
+                            {% else %}
+                            <span class="text-muted">Not uploaded</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Applications Statistics -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Application Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <h4>{{ student.applications|length if student.applications else 0 }}</h4>
+                        <small class="text-muted">Total Applications</small>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 class="text-warning">
+                            {{ student.applications|selectattr('status', 'equalto', 'shortlisted')|list|length if
+                            student.applications else 0 }}
+                        </h4>
+                        <small class="text-muted">Shortlisted</small>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 class="text-success">
+                            {{ student.applications|selectattr('status', 'equalto', 'selected')|list|length if
+                            student.applications else 0 }}
+                        </h4>
+                        <small class="text-muted">Selected</small>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 class="text-danger">
+                            {{ student.applications|selectattr('status', 'equalto', 'rejected')|list|length if
+                            student.applications else 0 }}
+                        </h4>
+                        <small class="text-muted">Rejected</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
